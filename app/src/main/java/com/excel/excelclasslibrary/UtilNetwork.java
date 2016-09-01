@@ -16,14 +16,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.excel.excelclasslibrary.Constants.APP_TAG;
 import static com.excel.excelclasslibrary.Constants.SDCARD_PATH;
-import static com.excel.excelclasslibrary.Constants.TAG_SEPARATOR;
 import static com.excel.excelclasslibrary.UtilFile.getFile;
 
 public class UtilNetwork {
 	
-	final public static String TAG = APP_TAG + TAG_SEPARATOR + "UtilNetwork";
+	final public static String TAG = "UtilNetwork";
 	
 	public static String getMacAddress( Context context ){
 		String address = "";
@@ -169,7 +167,7 @@ public class UtilNetwork {
 	}
 
 	public static String getLocalIpAddressIPv4( Context ct ) {
-		String address = "error";
+		String address = null;
 
 		try{
 			ConnectivityManager cm = (ConnectivityManager) ct.getSystemService( Context.CONNECTIVITY_SERVICE );
