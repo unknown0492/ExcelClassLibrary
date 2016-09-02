@@ -175,6 +175,7 @@ public class UtilNetwork {
 			NetworkInfo ni = cm.getActiveNetworkInfo();
 			if( ni == null ){
 				Log.i( TAG, "ni is null" );
+				return null;
 			}
 			int network_type = -1;
 
@@ -202,6 +203,29 @@ public class UtilNetwork {
 		}
 		return address;
     }
+
+	public static String getConnectedNetworkInterfaceName( Context context ){
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
+
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		if( ni == null ){
+			Log.i( TAG, "ni is null" );
+			return null;
+		}
+		int network_type = -1;
+
+		if( ni.isConnected() ){
+			network_type = ni.getType();
+		}
+
+		if( network_type == ConnectivityManager.TYPE_WIFI ){
+			return "WiFi";
+		}
+		else if( network_type == ConnectivityManager.TYPE_ETHERNET ){
+			return "Ethernet";
+		}
+		return null;
+	}
 	
 	public static String trimIp( String op ){
 		//String op = executeShellCommandWithOP( "ip addr show eth0" ); //ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1
