@@ -55,4 +55,8 @@ public class UtilMisc {
 		}
 		return hashtext;
 	}
+
+
+
+
 }

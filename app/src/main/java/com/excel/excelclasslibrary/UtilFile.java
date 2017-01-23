@@ -52,15 +52,22 @@ public class UtilFile {
 	}
 
     public static boolean saveFile( String directory, String file_name, String file_extension, byte[] file_data ){
-		String command = "mkdir " + SDCARD_PATH + directory;
+		String sdcard_path = Environment.getExternalStorageDirectory() + File.separator;
+
+		String command = "mkdir " + sdcard_path + directory;
 		UtilShell.executeShellCommandWithOp( command );
 
 		command = "mkfile " +file_name+ "." +file_extension;
 		UtilShell.executeShellCommandWithOp( command );
 		
 		try{
-			File f_file = new File( SDCARD_PATH + directory + File.separator + file_name + "." + file_extension );
-				
+
+			File f_file;
+			if( ( file_extension == null ) || ( file_extension.equals( "" ) ) )
+				f_file = new File( sdcard_path + directory + File.separator + file_name );
+			else
+				f_file = new File( sdcard_path + directory + File.separator + file_name + "." + file_extension );
+
 			FileOutputStream fos = new FileOutputStream( f_file );
 			fos.write( file_data );
 			fos.close();
@@ -94,6 +101,7 @@ public class UtilFile {
 		FileInputStream fis = null;
 		BufferedReader reader = null;
 		StringBuilder data;
+		
 		try{
 			fis = new FileInputStream( file );
 			reader = new BufferedReader( new InputStreamReader( fis ) );

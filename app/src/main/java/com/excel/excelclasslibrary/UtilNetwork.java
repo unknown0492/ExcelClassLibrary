@@ -9,15 +9,10 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import static com.excel.excelclasslibrary.Constants.SDCARD_PATH;
-import static com.excel.excelclasslibrary.UtilFile.getFile;
 
 public class UtilNetwork {
 	
@@ -48,7 +43,7 @@ public class UtilNetwork {
 				Log.i( TAG, "WiFi mac : "+address );
 			}
 			else if( network_type == ConnectivityManager.TYPE_ETHERNET ){
-				File mac_bak = getFile( SDCARD_PATH, "mac.bak" );
+				/*File mac_bak = getFile( SDCARD_PATH, "mac.bak" );
 				try{
 					FileInputStream fis = new FileInputStream( mac_bak );
 					address = "";
@@ -64,8 +59,9 @@ public class UtilNetwork {
 				}
 				catch( Exception e ){
 					Log.i( TAG, "Exception in reading mac.bak file : "+e.getMessage()+". Now retrieving mac from ip addr show eth0" );
-					return trimMac();
-				}
+				*/
+				return trimMac();
+				//}
 			}
 		}
 		catch( Exception e ){
@@ -123,6 +119,7 @@ public class UtilNetwork {
 				//con.setRequestProperty("User-Agent", USER_AGENT);
 				con.setRequestMethod( "GET" );
 				con.setDoOutput( true );
+				con.setConnectTimeout( 10000 );
 			}
 			else{
 				String encodedURL = url;//URLEncoder.encode(url, "UTF-8");
@@ -133,6 +130,7 @@ public class UtilNetwork {
 				con = (HttpURLConnection) obj.openConnection();
 				con.setRequestMethod( "POST" );
 				con.setDoOutput( true );
+				con.setConnectTimeout( 10000 );
 				DataOutputStream wr = new DataOutputStream( con.getOutputStream() );
 				wr.writeBytes( urlParameters );
 				wr.flush();
