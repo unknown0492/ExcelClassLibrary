@@ -1,7 +1,5 @@
 package com.excel.configuration;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +26,7 @@ public class LauncherJSONReader {
             highest_level_array = highest_level_object.getJSONArray( "main_items" );
 
             ConfigurationReader configurationReader = ConfigurationReader.reInstantiate();
+            /*
             String hotspot_enabled = configurationReader.getHotspotEnabled();
             Log.d( TAG, "hotspot_enabled : "+hotspot_enabled );
             if( hotspot_enabled.equals( "0" ) ){
@@ -36,16 +35,16 @@ public class LauncherJSONReader {
                         // highest_level_array.remove( i );
                         highest_level_array = removeElementFromJSONArray( i );
 
-                        /*Log.d( TAG, "Deleted index : "+i );
+                        *//*Log.d( TAG, "Deleted index : "+i );
                         for( int j = i ; j < highest_level_array.length() - 1 ; j++, i++ ){
                             highest_level_array. = highest_level_array.getJSONArray( j + 1 );
-                        }*/
+                        }*//*
 
                         break;
                     }
                 }
 
-            }
+            }*/
 
         }
         catch( Exception e ){
@@ -149,7 +148,7 @@ public class LauncherJSONReader {
         for( int i = 0 ; i < arr.length ; i++ ){
             temp = getSubItemValue( main_menu_item_index, i, "item_name" );
 
-            if( temp.equals( "{SSID}" ) ){
+            /*if( temp.equals( "{SSID}" ) ){
                 // Log.d( TAG, ","+temp+"," );
                 arr[ i ] = "SSID : " + cr.getSSID();
                 continue;
@@ -158,7 +157,7 @@ public class LauncherJSONReader {
                 // Log.d( TAG, ","+temp+"," );
                 arr[ i ] = "Pass : " + cr.getHotspotPassword();
                 continue;
-            }
+            }*/
 
             arr[ i ] = temp;
         }
