@@ -40,15 +40,17 @@ public class UtilFile {
     	return new File( dir.getAbsolutePath() + File.separator + file_name );
     }
     
-    public static void saveDataToFile( File file, String data ){
+    public static boolean saveDataToFile( File file, String data ){
 		try{
 			FileOutputStream fos = new FileOutputStream( file );
 			fos.write( data.getBytes() );
 			fos.close();
+			return true;
 		}
 		catch( Exception e ){
 			e.printStackTrace();
 		}
+		return false;
 	}
 
     public static boolean saveFile( String directory, String file_name, String file_extension, byte[] file_data ){

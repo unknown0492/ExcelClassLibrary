@@ -6,6 +6,7 @@ import android.content.Intent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 public class UtilMisc {
 	
@@ -56,7 +57,19 @@ public class UtilMisc {
 		return hashtext;
 	}
 
+	/**
+	 *
+	 * Get the Locale Language from the Locale country constant
+	 * @return Locale for the Language Code set in the getprop
+	 *
+	 */
+	public static Locale getCustomLocaleLanguageConstant(){
+		String language_code = UtilShell.executeShellCommandWithOp( "getprop language_code" ).trim();
+		if( language_code.equals( "" ) )
+			return new Locale( "en" );
 
+		return new Locale( language_code );
+	}
 
 
 }
