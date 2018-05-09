@@ -169,14 +169,14 @@ public class ConfigurationReader {
      * the configuration file.
      */
     public static ConfigurationReader getInstance() {
-        /*if (configurationReader == null) {
+        if (configurationReader == null) {
             configurationReader = new ConfigurationReader();
-            *//**
+            /**
              *
              * 1. Check if configuration file exist on sdcard
              * 2. If does not exist, then read the configuration file from the /system
              *
-             *//*
+             */
             String configuration_file_path = Environment.getExternalStorageDirectory() + File.separator + PATH_CONFIGURATION_FILE;
             Log.d(TAG, configuration_file_path);
             File configuration = new File( configuration_file_path );
@@ -197,20 +197,22 @@ public class ConfigurationReader {
             processConfigurationData( configuration_data );
 
 
-        }*/
+        }
 
-        configurationReader = new ConfigurationReader();
         /*
+        configurationReader = new ConfigurationReader();
+        *//*
         * 1. Check if the database already exist on sdcard
         * 2. If does not exist, create it
         *
-        */
+        *//*
         sqldb = SQLiteDatabase.openOrCreateDatabase( getAppstvDatabasePath(), null );
         // Create table for launcher config
         //String CREATE_LAUNCHER_CONFIG_TABLE = "CREATE TABLE launcher_config( `` )";
         // Create table for box config
         // Create table for digital signage
         // Create table for preinstall apps
+*/
 
         return configurationReader;
     }
