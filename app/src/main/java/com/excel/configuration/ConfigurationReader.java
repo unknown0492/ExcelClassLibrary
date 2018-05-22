@@ -28,15 +28,49 @@ import static com.excel.configuration.Constants.PATH_PREINSTALL_APPS_FILE;
 import static com.excel.configuration.Constants.PATH_PREINSTALL_APPS_FILE_SYSTEM;
 
 public class ConfigurationReader {
-    String country, timezone, cms_ip, location, firmware_name,
-            is_reboot_scheduled, reboot_time, digital_signage_interval, weather_retry_interval, weather_refresh_interval,
-            clock_weather_flip_interval, cms_sub_directory, protocol, hotspot_enabled, ssid, hotspot_password, room_no, web_service_url,
-            is_ots_completed, language, webservice_path, airplay_enabled, date_time_flip_interval, tethering_info_flip_interval, has_hotel_logo_display,
-            hotel_logo_flip_interval, is_airplay_ssid_same_as_tethering_ssid, airplay_ssid, airplay_password, loading_screen_time, welcome_screen_type,
-            collar_text_speed, idle_timeout_interval;
+    String country;
+    String timezone;
+    String cms_ip;
+    String location;
+    String firmware_name;
+    String is_reboot_scheduled;
+    String reboot_time;
+    String digital_signage_interval;
+    String weather_retry_interval;
+    String weather_refresh_interval;
+    String clock_weather_flip_interval;
+    String cms_sub_directory;
+    String protocol;
+    String hotspot_enabled;
+    String ssid;
+    String hotspot_password;
+    String room_no;
+    String web_service_url;
+    String is_ots_completed;
+    String language;
+    String webservice_path;
+    String airplay_enabled;
+    String date_time_flip_interval;
+    String tethering_info_flip_interval;
+    String has_hotel_logo_display;
+    String hotel_logo_flip_interval;
+    String is_airplay_ssid_same_as_tethering_ssid;
+    String airplay_ssid;
+    String airplay_password;
+    String loading_screen_time;
+    String welcome_screen_type;
+    String collar_text_speed;
+    String idle_timeout_interval;
+    String is_weather_enabled = "1";
+    String is_welcome_screen_enabled = "1";
+    String has_random_hotspot_password = "1";
+
+
+
+
 
     static String file_md5 = "";
-    static ConfigurationReader configurationReader;
+    static volatile ConfigurationReader configurationReader = null;
     public final static String TAG = "ConfigurationReader";
     static int KEY = 0;
     static int VALUE = 1;
@@ -72,6 +106,11 @@ public class ConfigurationReader {
     public final static String WELCOME_SCREEN_TYPE = "welcome_screen_type";
     public final static String COLLAR_TEXT_SPEED = "collar_text_speed";
     public final static String IDLE_TIMEOUT_INTERVAL = "idle_timeout_interval";
+
+    public final static String IS_WEATHER_ENABLED = "is_weather_enabled";
+    public final static String IS_WELCOME_SCREEN_ENABLED = "is_welcome_screen_enabled";
+    public final static String HAS_RANDOM_HOTSPOT_PASSWORD = "has_random_hotspot_password";
+
 
     public static SQLiteDatabase sqldb;
 
@@ -196,7 +235,10 @@ public class ConfigurationReader {
             String configuration_data = getConfigurationFileData( configuration );
             processConfigurationData( configuration_data );
 
-
+            Log.i( TAG, "Giving new ConfigurationReader" );
+        }
+        else{
+            Log.d( TAG, "Giving same ConfigurationReader" );
         }
 
         /*
@@ -233,6 +275,7 @@ public class ConfigurationReader {
 
         // If previous md5 and new md5 is equal, dont need to reinstantiate
         if( getFileMD5().equals( getNewFileMD5( configuration ) ) ){
+            //configurationReader = null;
             return getInstance();
         }
 
@@ -241,8 +284,8 @@ public class ConfigurationReader {
         setFileMD5( configuration );
         configurationReader = null;
 
-        /*// if no md5 exist or empty, then generate md5 and store
-        if( getFileMD5().equals( "no_md5" ) || getFileMD5().equals( "" ) ){
+        // if no md5 exist or empty, then generate md5 and store
+        /*if( getFileMD5().equals( "no_md5" ) || getFileMD5().equals( "" ) ){
             setFileMD5( configuration );
             configurationReader = null;
         }
@@ -354,7 +397,14 @@ public class ConfigurationReader {
                 configurationReader.setCollarTextSpeed( line[ VALUE ] );
             } else if ( line[ KEY ].equals( IDLE_TIMEOUT_INTERVAL ) ) {
                 configurationReader.setIdleTimeoutInterval( line[ VALUE ] );
+            } else if ( line[ KEY ].equals( IS_WEATHER_ENABLED ) ) {
+                configurationReader.setIsWeatherEnabled( line[ VALUE ] );
+            } else if ( line[ KEY ].equals( IS_WELCOME_SCREEN_ENABLED ) ) {
+                configurationReader.setIsWelcomeScreenEnabled( line[ VALUE ] );
+            } else if ( line[ KEY ].equals( HAS_RANDOM_HOTSPOT_PASSWORD ) ) {
+                configurationReader.setHasRandomHotspotPassword( line[ VALUE ] );
             }
+
 
 
         }
@@ -650,4 +700,27 @@ public class ConfigurationReader {
     }
 
 
+    public boolean getIsWelcomeScreenEnabled() {
+        return is_welcome_screen_enabled.equals( "1" )?true:false;
+    }
+
+    public void setIsWelcomeScreenEnabled(String is_welcome_screen_enabled) {
+        this.is_welcome_screen_enabled = is_welcome_screen_enabled;
+    }
+
+    public String getHasRandomHotspotPassword() {
+        return has_random_hotspot_password;
+    }
+
+    public void setHasRandomHotspotPassword(String has_random_hotspot_password) {
+        this.has_random_hotspot_password = has_random_hotspot_password;
+    }
+
+    public boolean getIsWeatherEnabled() {
+        return is_weather_enabled.equals( "1" )?true:false;
+    }
+
+    public void setIsWeatherEnabled(String is_weather_enabled) {
+        this.is_weather_enabled = is_weather_enabled;
+    }
 }

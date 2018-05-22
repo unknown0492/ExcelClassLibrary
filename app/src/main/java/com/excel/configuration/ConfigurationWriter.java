@@ -197,8 +197,11 @@ public class ConfigurationWriter {
 			String airplay_password = jsonObject.getString( ConfigurationReader.AIRPLAY_PASSWORD );
 			String loading_screen_time = jsonObject.getString( ConfigurationReader.LOADING_SCREEN_TIME );
 			String welcome_screen_type = jsonObject.getString( ConfigurationReader.WELCOME_SCREEN_TYPE );
-			String collar_text_speed = jsonObject.getString(ConfigurationReader.COLLAR_TEXT_SPEED);
-			String idle_timeout_interval = jsonObject.getString(ConfigurationReader.IDLE_TIMEOUT_INTERVAL);
+			String collar_text_speed = jsonObject.getString( ConfigurationReader.COLLAR_TEXT_SPEED );
+			String idle_timeout_interval = jsonObject.getString( ConfigurationReader.IDLE_TIMEOUT_INTERVAL );
+			String is_weather_enabled = jsonObject.getString( ConfigurationReader.IS_WEATHER_ENABLED );
+			String is_welcome_screen_enabled = jsonObject.getString( ConfigurationReader.IS_WELCOME_SCREEN_ENABLED );
+			//String has_random_hotspot_password = jsonObject.getString( ConfigurationReader.HAS_RANDOM_HOTSPOT_PASSWORD );
 
 			StringBuilder sb = new StringBuilder();
 			sb.append( ConfigurationReader.COUNTRY ).append( "=" ).append( country ).append( "\n" );
@@ -230,8 +233,12 @@ public class ConfigurationWriter {
 			sb.append( ConfigurationReader.AIRPLAY_PASSWORD ).append( "=" ).append( airplay_password ).append( "\n" );
 			sb.append( ConfigurationReader.LOADING_SCREEN_TIME ).append( "=" ).append( loading_screen_time ).append( "\n" );
 			sb.append( ConfigurationReader.WELCOME_SCREEN_TYPE ).append( "=" ).append( welcome_screen_type ).append( "\n" );
-			sb.append(ConfigurationReader.COLLAR_TEXT_SPEED).append( "=" ).append( collar_text_speed ).append( "\n" );
-			sb.append(ConfigurationReader.IDLE_TIMEOUT_INTERVAL).append( "=" ).append( idle_timeout_interval ).append( "\n" );
+			sb.append( ConfigurationReader.COLLAR_TEXT_SPEED ).append( "=" ).append( collar_text_speed ).append( "\n" );
+			sb.append( ConfigurationReader.IDLE_TIMEOUT_INTERVAL ).append( "=" ).append( idle_timeout_interval ).append( "\n" );
+
+			sb.append( ConfigurationReader.IS_WEATHER_ENABLED ).append( "=" ).append( is_weather_enabled ).append( "\n" );
+			sb.append( ConfigurationReader.IS_WELCOME_SCREEN_ENABLED ).append( "=" ).append( is_welcome_screen_enabled ).append( "\n" );
+			//sb.append( ConfigurationReader.HAS_RANDOM_HOTSPOT_PASSWORD ).append( "=" ).append( has_random_hotspot_password ).append( "\n" );
 
 
 			File file = new File( configurationWriter.getConfigurationFilePath() );

@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.io.File;
+
 public class UtilSQLite {
 	
 	// ---- Instantiation SQLite Database Starts Here
@@ -12,6 +14,19 @@ public class UtilSQLite {
 		SQLiteDatabase sqldb = null;
 		try{
 			sqldb = context.openOrCreateDatabase( dbname, Context.MODE_PRIVATE, null );		
+		}
+		catch( Exception e ){
+			Log.i(null, " Opening DB error : "+e.toString());
+		}
+		return sqldb;
+	}
+	// ---- Instantiating SQLite Database Ends Here
+
+	// ---- Instantiation SQLite Database Starts Here
+	public static SQLiteDatabase makeExternalDatabase( String directory, String dbname, Context context ){
+		SQLiteDatabase sqldb = null;
+		try{
+			sqldb = SQLiteDatabase.openDatabase( directory + File.separator + dbname, null, SQLiteDatabase.CREATE_IF_NECESSARY );
 		}
 		catch( Exception e ){
 			Log.i(null, " Opening DB error : "+e.toString());
