@@ -2,8 +2,8 @@ package com.excel.configuration;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
-import com.excel.customitems.CustomItems;
 import com.excel.excelclasslibrary.UtilFile;
 
 import org.json.JSONObject;
@@ -66,7 +66,8 @@ public class ConfigurationWriter {
 				} catch ( IOException e ) {
 					e.printStackTrace();
 				}*/
-				CustomItems.showCustomToast( context, "warning", "Configuration file is empty !", 6000 );
+				//CustomItems.showCustomToast( context, "warning", "Configuration file is empty !", 6000 );
+				Log.e( TAG, "Configuration file is empty !" );
 				// return null;
 			}
 			
