@@ -35,9 +35,9 @@ public class LauncherJSONReader {
             highest_level_object = new JSONObject( json_string );
             highest_level_array = highest_level_object.getJSONArray( "main_items" );
 
-            storeCollarText();
+            //storeCollarText();
 
-            int total_main_items = getMainItemsCount();
+            //int total_main_items = getMainItemsCount();
 
         }
         catch( Exception e ){
