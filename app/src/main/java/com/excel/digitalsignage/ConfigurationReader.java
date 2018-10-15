@@ -2,6 +2,7 @@ package com.excel.digitalsignage;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.excel.excelclasslibrary.UtilShell;
@@ -14,12 +15,15 @@ import java.io.InputStreamReader;
 
 import static com.excel.configuration.Constants.APPSTV_DATA_DIRECTORY_NAME;
 import static com.excel.configuration.Constants.DIR_PREINSTALL_SYSTEM;
+import static com.excel.digitalsignage.Constants.CONTENT_DOWNLOAD_STARTED;
 import static com.excel.digitalsignage.Constants.DIR_FIRMWARE;
+import static com.excel.digitalsignage.Constants.DIR_GRAPHICS;
 import static com.excel.digitalsignage.Constants.DS_DATA_DIRECTORY_NAME;
 import static com.excel.digitalsignage.Constants.PATH_CONFIGURATION_FILE;
 import static com.excel.digitalsignage.Constants.PATH_CONFIGURATION_FILE_SYSTEM;
 import static com.excel.digitalsignage.Constants.DIR_IMAGES;
 import static com.excel.digitalsignage.Constants.DIR_VIDEOS;
+import static com.excel.digitalsignage.Constants.TEMPLATE_FILE_NAME;
 
 public class ConfigurationReader {
     String country;
@@ -195,8 +199,8 @@ public class ConfigurationReader {
         this.is_ots_completed = is_ots_completed;
     }
 
-    public String getIsOtsCompleted() {
-        return is_ots_completed;
+    public boolean isOtsCompleted() {
+        return (is_ots_completed.equals( "1" ))?true:false;
     }
     // IS OTS COMPLETED
 
@@ -276,9 +280,46 @@ public class ConfigurationReader {
 
 
 
+    // Sync Process
+    public void setSyncStarted( boolean isStarted ){
+        String is_started = isStarted?"1":"0";
+        UtilShell.executeShellCommandWithOp( "setprop " + Constants.SYNC_IN_PROGRESS + " " + is_started );
+    }
+
+    public boolean isSyncStarted(){
+        String is_started = UtilShell.executeShellCommandWithOp( "getprop " + Constants.SYNC_IN_PROGRESS );
+        is_started = is_started.trim();
+        return is_started.equals( "1" )?true:false;
+    }
+    // Sync Process
+
+
+
+
+
+    // Content Download Started/Finished
+    public void setContentDownloadStarted( boolean isStarted ){
+        String is_started = isStarted?"1":"0";
+        UtilShell.executeShellCommandWithOp( "setprop " + CONTENT_DOWNLOAD_STARTED + " " + is_started );
+    }
+
+    public boolean isContentDownloadStarted(){
+        String is_started = UtilShell.executeShellCommandWithOp( "getprop " + CONTENT_DOWNLOAD_STARTED );
+        is_started = is_started.trim();
+        return is_started.equals( "1" )?true:false;
+    }
+    // Content Download Started/Finished
+
+
+
     // PATHS
     public static String getDigitalSignageDataRootDirectoryPath(){
         return new File( Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + DS_DATA_DIRECTORY_NAME ).getAbsolutePath();
+    }
+
+    public String getGraphicsDirectoryPath(){
+        File file = new File( Environment.getExternalStorageDirectory() + File.separator + DIR_GRAPHICS );
+        return file.getAbsolutePath();
     }
 
     public String getImagesDirectoryPath(){
@@ -287,10 +328,46 @@ public class ConfigurationReader {
         return file.getAbsolutePath();
     }
 
+    public String getVideosDirectoryPath(){
+        File file = new File( Environment.getExternalStorageDirectory() + File.separator +
+                DIR_VIDEOS );
+        return file.getAbsolutePath();
+    }
+
     public String getFirmwareDirectoryPath(){
         File file = new File( Environment.getExternalStorageDirectory() + File.separator +
                 DIR_FIRMWARE );
         return file.getAbsolutePath();
+    }
+
+    public static String getTemplateFilePath(){
+        return getDigitalSignageDataRootDirectoryPath() + File.separator + TEMPLATE_FILE_NAME;
+    }
+
+    public String getDownloadsGraphhicsDirectoryPath(){
+        File file = new File( Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS ).getAbsolutePath() + File.separator + DIR_GRAPHICS );
+        return file.getAbsolutePath();
+    }
+
+    public String getDownloadsDirectoryPath(){
+        File file = new File( Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS ).getAbsolutePath() );
+        return file.getAbsolutePath();
+    }
+
+    public String getDownloadsDigitalSignageDataRootDirectoryPath(){
+        return new File( getDownloadsDirectoryPath() + File.separator + DS_DATA_DIRECTORY_NAME ).getAbsolutePath();
+    }
+
+    public String getDownloadsImagesDirectoryPath(){
+        return new File( getDownloadsDirectoryPath() + File.separator + DIR_IMAGES ).getAbsolutePath();
+    }
+
+    public String getDownloadsVideosDirectoryPath(){
+        return new File( getDownloadsDirectoryPath() + File.separator + DIR_VIDEOS ).getAbsolutePath();
+    }
+
+    public String getDownloadsTemplateFilePath(){
+        return new File( getDownloadsDigitalSignageDataRootDirectoryPath() + File.separator + TEMPLATE_FILE_NAME ).getAbsolutePath();
     }
     // PATHS
 
@@ -342,7 +419,7 @@ public class ConfigurationReader {
             String configuration_data = getConfigurationFileData( configuration );
             processConfigurationData( configuration_data );
 
-            Log.i( TAG, "Giving new ConfigurationReader" );
+            //Log.i( TAG, "Giving new ConfigurationReader" );
         }
 
 
@@ -353,7 +430,7 @@ public class ConfigurationReader {
         //configurationReader = null;
         // Verify first, if there is a need for reinstantiate, then only reinstantiate
         String configuration_file_path = Environment.getExternalStorageDirectory() + File.separator + PATH_CONFIGURATION_FILE;
-        Log.d(TAG, configuration_file_path);
+        //Log.d(TAG, configuration_file_path);
         File configuration = new File( configuration_file_path );
 
         // Step-1

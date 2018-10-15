@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.excel.excelclasslibrary.UtilFile;
 import com.excel.excelclasslibrary.UtilShell;
 import com.excel.util.MD5;
 
@@ -226,6 +227,16 @@ public class ConfigurationReader {
                 configuration_file_path = PATH_CONFIGURATION_FILE_SYSTEM;
                 configuration = new File( configuration_file_path );
             }
+            /*else{
+                // Double verification in case the configuration file is empty on sdcard
+                String configData = UtilFile.readData( new File( configuration_file_path ) );
+                if( configData.trim().equals( "" ) ){
+                    // Read system file
+                    configuration_file_path = PATH_CONFIGURATION_FILE_SYSTEM;
+                    configuration = new File( configuration_file_path );
+                }
+            }*/
+
 
             // if no md5 exist or empty, then generate md5 and store
             if( getFileMD5().equals( "no_md5" ) || getFileMD5().equals( "" ) ){

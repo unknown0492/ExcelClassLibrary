@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.excel.configuration.ConfigurationReader;
+import com.excel.digitalsignage.ConfigurationReader;
 import com.excel.excelclasslibrary.UtilFile;
 
 import org.json.JSONObject;
@@ -15,8 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.excel.configuration.Constants.APPSTV_DATA_DIRECTORY_NAME;
-import static com.excel.configuration.Constants.PATH_CONFIGURATION_FILE;
+import static com.excel.digitalsignage.Constants.PATH_CONFIGURATION_FILE;
 
 public class ConfigurationWriter {
 	
@@ -40,7 +39,7 @@ public class ConfigurationWriter {
 	static int KEY = 0;
 	static int VALUE = 1;
 	
-	public static ConfigurationWriter getInstance(Context context ){
+	public static ConfigurationWriter getInstance( Context context ){
 		if( configurationWriter == null ){
 			configurationWriter = new ConfigurationWriter();
 			/**
@@ -55,11 +54,12 @@ public class ConfigurationWriter {
 			// Step-1
 			if( ! configuration.exists() ){
 				// Step-2
-				/*try {
+				try {
 					configuration.createNewFile();
+                    Log.i( TAG, "Created empty Configuration file !" );
 				} catch ( IOException e ) {
 					e.printStackTrace();
-				}*/
+				}
 				//CustomItems.showCustomToast( context, "warning", "Configuration file is empty !", 6000 );
 				Log.e( TAG, "Configuration file is empty !" );
 				// return null;

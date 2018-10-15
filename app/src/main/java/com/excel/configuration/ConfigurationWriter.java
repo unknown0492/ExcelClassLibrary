@@ -67,7 +67,7 @@ public class ConfigurationWriter {
 					e.printStackTrace();
 				}*/
 				//CustomItems.showCustomToast( context, "warning", "Configuration file is empty !", 6000 );
-				Log.e( TAG, "Configuration file is empty !" );
+				Log.e( TAG, "Configuration file does not exist !" );
 				// return null;
 			}
 			
@@ -161,12 +161,13 @@ public class ConfigurationWriter {
 
 	public static boolean writeAllConfigurations( Context context, String json ){
 		configurationWriter = ConfigurationWriter.getInstance( context );
-        File configuration = new File( configurationWriter.getConfigurationFilePath() );
+        /*File configuration = new File( configurationWriter.getConfigurationFilePath() );
         try {
-            configuration.createNewFile();
+        	if( ! configuration.exists() )
+            	configuration.createNewFile();
         } catch ( IOException e ) {
             e.printStackTrace();
-        }
+        }*/
 		try {
 			JSONObject jsonObject = new JSONObject( json );
 			String country = jsonObject.getString( ConfigurationReader.COUNTRY );
@@ -245,13 +246,13 @@ public class ConfigurationWriter {
 			File file = new File( configurationWriter.getConfigurationFilePath() );
 			if( ! file.exists() )
 				file.createNewFile();
-			FileInputStream fis = new FileInputStream( file );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( fis ) );
+			//FileInputStream fis = new FileInputStream( file );
+			//BufferedReader reader = new BufferedReader( new InputStreamReader( fis ) );
 
-			UtilFile.saveDataToFile( new File( configurationWriter.getConfigurationFilePath() ), sb.toString().trim() );
+			UtilFile.saveDataToFile( file, sb.toString().trim() );
 
-			reader.close();
-			fis.close();
+			//reader.close();
+			//fis.close();
 
 		} catch ( Exception e ) {
 			e.printStackTrace();
