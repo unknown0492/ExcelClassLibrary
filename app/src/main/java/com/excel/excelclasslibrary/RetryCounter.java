@@ -1,67 +1,60 @@
 package com.excel.excelclasslibrary;
 
-/**
- * Created by Sohail on 02-11-2016.
- */
-
-public class RetryCounter{
-
+public class RetryCounter {
     String property_name;
 
-    public RetryCounter( String property_name ){
-        this.property_name = property_name;
+    public RetryCounter(String property_name2) {
+        this.property_name = property_name2;
     }
 
-    public void setRetryCount( int count ){
-        UtilShell.executeShellCommandWithOp( "setprop "+property_name+" "+count );
+    public void setRetryCount(int count) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("setprop ");
+        sb.append(this.property_name);
+        sb.append(" ");
+        sb.append(count);
+        UtilShell.executeShellCommandWithOp(sb.toString());
     }
 
-    public int getRetryCount(){
-        String c = UtilShell.executeShellCommandWithOp( "getprop "+property_name );
-        c = c.trim();
-        int count = 1;
-        if( c.equals( "" ) || c.equals( "0" ) ){
-            count = 1;
-            setRetryCount( count );
+    public int getRetryCount() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("getprop ");
+        sb.append(this.property_name);
+        String c = UtilShell.executeShellCommandWithOp(sb.toString()).trim();
+        if (c.equals("") || c.equals("0")) {
+            setRetryCount(1);
+            return 1;
         }
-        else{
-            count = Integer.parseInt( c );
-            count += 1;
-            setRetryCount( count );
-        }
+        int count = Integer.parseInt(c) + 1;
+        setRetryCount(count);
         return count;
     }
 
-    public long getRetryTime(){
-        return retryTimerIncrementer( getRetryCount() );
+    public long getRetryTime() {
+        return retryTimerIncrementer(getRetryCount());
     }
 
-    public void reset(){
-        UtilShell.executeShellCommandWithOp( "setprop "+property_name+" 0" );
+    public void reset() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("setprop ");
+        sb.append(this.property_name);
+        sb.append(" 0");
+        UtilShell.executeShellCommandWithOp(sb.toString());
     }
 
-    /**
-     *
-     * Generates retry time milliseconds for functionalities which needs to retry again and again due to failures
-     * @param try_count current retry count
-     * @return milliseconds of the retry interval
-     *
-     */
-    public static long retryTimerIncrementer( int try_count ){
-
-        switch ( try_count ){
-            case 0:
-                return 10000;
-            case 1:
-                return 60000;
-            case 2:
-                return 120000;
-            case 3:
-                return 300000;
-            default:
-                return 600000;
+    public static long retryTimerIncrementer(int try_count) {
+        if (try_count == 0) {
+            return 10000;
         }
-
+        if (try_count == 1) {
+            return 60000;
+        }
+        if (try_count == 2) {
+            return 120000;
+        }
+        if (try_count != 3) {
+            return 600000;
+        }
+        return 300000;
     }
-
 }

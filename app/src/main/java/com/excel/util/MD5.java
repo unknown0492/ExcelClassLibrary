@@ -5,51 +5,31 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
-public class MD5{
+public class MD5 {
+    public static byte[] createChecksum(File file) throws Exception {
+        int numRead;
+        InputStream fis = new FileInputStream(file);
+        byte[] buffer = new byte[1024];
+        MessageDigest complete = MessageDigest.getInstance("MD5");
+        do {
+            numRead = fis.read(buffer);
+            if (numRead > 0) {
+                complete.update(buffer, 0, numRead);
+            }
+        } while (numRead != -1);
+        fis.close();
+        return complete.digest();
+    }
 
-   public static byte[] createChecksum( File file ) throws Exception {
-       InputStream fis =  new FileInputStream( file );
-
-       byte[] buffer = new byte[1024];
-       MessageDigest complete = MessageDigest.getInstance("MD5");
-       int numRead;
-
-       do {
-           numRead = fis.read(buffer);
-           if (numRead > 0) {
-               complete.update(buffer, 0, numRead);
-           }
-       } while (numRead != -1);
-
-       fis.close();
-       return complete.digest();
-   }
-
-   // see this How-to for a faster way to convert
-   // a byte array to a HEX string
-   public static String getMD5Checksum( File file ) throws Exception {
-       byte[] b = createChecksum( file );
-       String result = "";
-
-       for (int i=0; i < b.length; i++) {
-           result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
-       }
-       return result;
-   }
-/*
-   public static void main(String args[]) {
-       try {
-           System.out.println(getMD5Checksum( "G:\\Workspaces\\excel_BASE_APPS_QC\\md5_of_File\\src\\com\\md5\\file.txt" ) );
-           // output :
-           //  0bb2827c5eacf570b6064e24e0e6653b
-           // ref :
-           //  http://www.apache.org/dist/
-           //          tomcat/tomcat-5/v5.5.17/bin
-           //              /apache-tomcat-5.5.17.exe.MD5
-           //  0bb2827c5eacf570b6064e24e0e6653b *apache-tomcat-5.5.17.exe
-       }
-       catch (Exception e) {
-           e.printStackTrace();
-       }
-   }*/
+    public static String getMD5Checksum(File file) throws Exception {
+        byte[] b = createChecksum(file);
+        String result = "";
+        for (byte b2 : b) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(result);
+            sb.append(Integer.toString((b2 & 255) + 256, 16).substring(1));
+            result = sb.toString();
+        }
+        return result;
+    }
 }

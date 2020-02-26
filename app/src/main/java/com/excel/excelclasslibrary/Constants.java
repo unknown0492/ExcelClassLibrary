@@ -1,9 +1,7 @@
 package com.excel.excelclasslibrary;
 
 public class Constants {
-
-	final public static String APP_TAG 			= "ExcelClassLibrary";
-	final public static String TAG_SEPARATOR 	= "-";
-	final public static String SDCARD_PATH		= "/mnt/sdcard/";
-	
+    public static final String APP_TAG = "ExcelClassLibrary";
+    public static final String SDCARD_PATH = "/mnt/sdcard/";
+    public static final String TAG_SEPARATOR = "-";
 }
