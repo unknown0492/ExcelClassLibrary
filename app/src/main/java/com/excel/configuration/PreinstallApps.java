@@ -49,7 +49,7 @@ public class PreinstallApps {
         PreinstallApps[] papps = new PreinstallApps[(temp.length / i)];
         Vector vector = new Vector(temp.length / i);
         int i2 = 0;
-        while (i2 < temp.length / TOTAL_OPTIONS) {
+        while ( i2 < temp.length / TOTAL_OPTIONS ) {
             int iterator = i2 * 6;
             ConfigurationReader configurationReader2 = configurationReader;
             //PreinstallApps preinstallApps = new PreinstallApps();

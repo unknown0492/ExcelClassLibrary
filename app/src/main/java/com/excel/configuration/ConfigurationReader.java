@@ -51,6 +51,7 @@ public class ConfigurationReader {
     public static final String WEBSERVICE_PATH = "webservice_path";
     public static final String WELCOME_SCREEN_TYPE = "welcome_screen_type";
     public static final String HOTSPOT_SECURITY = "hotspot_security";
+    public static final String AUTO_OTS_ENABLED = "auto_ots_enabled";
 
     static volatile ConfigurationReader configurationReader = null;
     static String file_md5 = "";
@@ -93,6 +94,7 @@ public class ConfigurationReader {
     String webservice_path;
     String welcome_screen_type;
     String hotspot_security;
+    String auto_ots_enabled;
 
     public ConfigurationReader() {
         String str = "1";
@@ -352,8 +354,9 @@ public class ConfigurationReader {
                 configurationReader.setChromecastModeOn(line[VALUE]);
             } else if (line[KEY].equals(HOTSPOT_SECURITY)) {
                 configurationReader.setHotspotSecurity(line[VALUE]);
+            } else if (line[KEY].equals(AUTO_OTS_ENABLED)) {
+                configurationReader.setAutoOtsEnabled(line[VALUE]);
             }
-
         }
     }
 
@@ -677,5 +680,13 @@ public class ConfigurationReader {
 
     public void setHotspotSecurity(String hotspot_security) {
         this.hotspot_security = hotspot_security;
+    }
+
+    public String getAutoOtsEnabled() {
+        return auto_ots_enabled;
+    }
+
+    public void setAutoOtsEnabled(String auto_ots_enabled) {
+        this.auto_ots_enabled = auto_ots_enabled;
     }
 }
