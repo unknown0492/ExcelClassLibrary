@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ExcelClassLibrary.iml" filepath="$PROJECT_DIR$/ExcelClassLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/ExcelClassLibrary-app.iml" filepath="$PROJECT_DIR$/app/ExcelClassLibrary-app.iml" group="ExcelClassLibrary/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appstv-ExcelClassLibrary.iml" filepath="$PROJECT_DIR$/appstv-ExcelClassLibrary.iml" group="ExcelClassLibrary" />
     </modules>
   </component>
 </project>
