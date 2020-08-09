@@ -13,6 +13,9 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class UtilNetwork {
     public static final String TAG = "UtilNetwork";
@@ -78,6 +81,67 @@ public class UtilNetwork {
         }
         return false;
     }
+
+    public static String mapToUrlParams( Map<String,String> url_params ){
+        Set<String> set = url_params.keySet();
+        Iterator<String> iterator = set.iterator();
+        String params = "";
+        while( iterator.hasNext() ){
+            String key = iterator.next();
+            String value = url_params.get( key );
+            params += key + "=" + value + "&";
+        }
+        return params.substring( 0, params.length() - 1 );
+    }
+
+    public static String makeRequestForData( String url, String request_method, Map<String,String> url_parameters ){
+        HttpURLConnection con;
+
+        try{
+            if ( request_method.equals( "GET" ) ) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(url);
+                sb.append("?");
+                sb.append(mapToUrlParams( url_parameters ) );
+                con = (HttpURLConnection) new URL(sb.toString()).openConnection();
+                con.setRequestMethod(request_method);
+                con.setDoOutput(true);
+                con.setConnectTimeout( 10000 );
+            } else {
+                con = (HttpURLConnection) new URL(url).openConnection();
+                con.setRequestMethod("POST");
+                con.setDoOutput(true);
+                con.setConnectTimeout( 10000 );
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(mapToUrlParams( url_parameters ));
+                wr.flush();
+                wr.close();
+            }
+            if ( con.getResponseCode() == 200 ) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuffer response = new StringBuffer();
+                while (true) {
+                    String readLine = in.readLine();
+                    String inputLine = readLine;
+                    if ( readLine != null ){
+                        response.append( inputLine );
+                    }
+                    else {
+                        in.close();
+                        return response.toString();
+                    }
+                }
+            } else {
+                throw new Exception("No Response from server.");
+            }
+        }
+        catch ( Exception e ){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
     public static String makeRequestForData(String url, String request_method, String urlParameters) {
         HttpURLConnection con;
